@@ -9,6 +9,7 @@ echo
 echo Removing previous contents...
 rm -rf public_html
 rm -rf logfiles
+rm -f posts.log
 
 echo
 echo Downloading contents...
@@ -25,4 +26,10 @@ sshpass -e scp ftp@boothj5.com@94.136.40.103:/logfiles/*-$1-*.log logfiles/.
 
 echo
 echo Scanning for POST requests...
-ack POST logfiles
+ack-grep POST logfiles > posts.log
+POST_COUNT=$(wc -l posts.log | cut -d' ' -f1)
+if [ $POST_COUNT -gt 0 ]; then
+    echo !! Found POST requests, see posts.log
+else
+    echo No POST requests found
+fi

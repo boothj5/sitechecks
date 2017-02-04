@@ -25,4 +25,4 @@ sshpass -e scp ftp@profanity.im@94.136.40.103:/logfiles/*-$1-*.log logfiles/.
 
 echo
 echo Scanning for POST requests...
-ack POST logfiles
+ack-grep POST logfiles
