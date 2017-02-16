@@ -19,8 +19,44 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 DEF='\033[0m'
 
-. $1
+# check for properties file argument
+if [ $# -eq 0 ]; then
+    echo No properties file specified
+    exit
+fi
+if [ ! -f "$1" ]; then
+    echo Could not find file: $1
+    exit
+fi
 
+# read and check for mandatory properties
+. $1
+missing_properties=false
+if [ "x$user" = "x" ];then
+    echo user property not specified
+    missing_properties=true
+fi
+if [ "x$server" = "x" ];then
+    echo server property not specified
+    missing_properties=true
+fi
+if [ "x$folder" = "x" ];then
+    echo folder property not specified
+    missing_properties=true
+fi
+if [ "x$year" = "x" ];then
+    echo year property not specified
+    missing_properties=true
+fi
+if [ "x$month" = "x" ];then
+    echo month property not specified
+    missing_properties=true
+fi
+if [ "$missing_properties" = true ]; then
+    exit
+fi
+
+# set password
 if [ "x$password" = "x" ]; then
     echo
     read -s -p "Enter password: " PASS
