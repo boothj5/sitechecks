@@ -66,6 +66,12 @@ else
     export SSHPASS=$password
 fi
 
+# check folder
+if [ -f "$folder" ]; then
+    echo $folder is a regular file
+    exit
+fi
+
 rm -rf $folder
 mkdir $folder
 
